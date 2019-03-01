@@ -126,6 +126,12 @@ services:
     ports:
       - "8082:8081"  
 
+  presto-cli:
+   image: mfisser/presto-cli:1.0.0
+    container_name: "presto-cli"
+    depends_on:
+      - coordinator
+
 volumes:
   hadoop_namenode:
   hadoop_datanode1:
