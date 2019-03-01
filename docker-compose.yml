@@ -127,7 +127,7 @@ services:
       - "8082:8081"  
 
   presto-cli:
-   image: mfisser/presto-cli:1.0.0
+    image: mfisser/presto-cli:1.0.0
     container_name: "presto-cli"
     depends_on:
       - coordinator
