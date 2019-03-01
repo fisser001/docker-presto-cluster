@@ -1,12 +1,10 @@
-FROM openjdk:alpine
+FROM dockerfile/java:oracle-java8
 
 ENV PRESTO_VERSION 0.217
 RUN chmod 777 -R /usr/local/bin/
 RUN mkdir -p /usr/local/bin/presto/presto-cli-${PRESTO_VERSION}
 RUN chmod 777 -R /usr/local/bin/
 COPY files/presto-cli-${PRESTO_VERSION}-executable.jar /usr/local/bin/presto
+RUN chmod +x /usr/local/bin/presto
 
-RUN apk     --no-cache upgrade && \
-    apk add --no-cache less
-
-ENTRYPOINT [ "/usr/local/bin/" ]
+ENTRYPOINT ["/usr/local/bin/presto"]
