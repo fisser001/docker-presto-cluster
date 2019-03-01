@@ -3,6 +3,6 @@ FROM openjdk:alpine
 ENV PRESTO_VERSION 0.217
 RUN mkdir -p /usr/local/bin/presto/presto-cli-${PRESTO_VERSION}
 COPY files/presto-cli-${PRESTO_VERSION}-executable.jar /usr/local/bin/presto
-RUN chmod 0777 -R /usr/local/bin/presto
+RUN chmod 777 -R /usr/local/bin/
 
 ENTRYPOINT [ "/usr/local/bin/presto" ]
