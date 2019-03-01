@@ -99,7 +99,7 @@ services:
   coordinator:
     image: mfisser/presto-coordinator:1.0.0
     environment:
-      - node_id: coordinator
+      - node_id=coordinator
     container_name: "coordinator"    
     depends_on:
       - hive-server
@@ -109,7 +109,7 @@ services:
   worker0:
     image: mfisser/presto-worker:1.0.0
     environment:
-      - node_id: worker0
+      - node_id=worker0
     container_name: "worker0"
     depends_on:
       - coordinator
@@ -119,7 +119,7 @@ services:
   worker1:
     image: mfisser/presto-worker:1.0.0
     environment:
-     - node_id: worker1
+     - node_id=worker1
     container_name: "worker1"
     depends_on:
       - coordinator
