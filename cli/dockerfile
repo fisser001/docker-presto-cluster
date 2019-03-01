@@ -5,4 +5,4 @@ RUN mkdir -p /usr/local/bin/presto/presto-cli-${PRESTO_VERSION}
 COPY files/presto-cli-${PRESTO_VERSION}-executable.jar /usr/local/bin/presto
 RUN chmod 777 -R /usr/local/bin/
 
-ENTRYPOINT [ "/usr/local/bin/presto" ]
+ENTRYPOINT [ "/bin/bash" ]
