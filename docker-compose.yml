@@ -1,0 +1,134 @@
+version: "3"
+
+services:
+  namenode:
+    image: mfisser/hadoop-namenode:1.0.0-hadoop2.7.6-java8
+    container_name: namenode
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop-hive.env
+
+  resourcemanager:
+    image: mfisser/hadoop-resourcemanager:1.0.0-hadoop2.7.6-java8
+    container_name: resourcemanager
+    depends_on:
+      - namenode
+      - datanode1
+      - datanode2
+    env_file:
+      - ./hadoop-hive.env
+  
+  historyserver:
+    image: mfisser/hadoop-historyserver:1.0.0-hadoop2.7.6-java8
+    container_name: historyserver
+    depends_on:
+      - namenode
+      - datanode1
+      - datanode2
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop-hive.env
+  
+  nodemanager1:
+    image: mfisser/hadoop-nodemanager:1.0.0-hadoop2.7.6-java8
+    container_name: nodemanager1
+    depends_on:
+      - namenode
+      - datanode1
+      - datanode2
+    env_file:
+      - ./hadoop-hive.env
+  
+  datanode1:
+    image: mfisser/hadoop-datanode:1.0.0-hadoop2.7.6-java8
+    container_name: datanode1
+    depends_on:
+      - namenode
+    volumes:
+      - hadoop_datanode1:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env  
+
+  datanode2:
+    image: mfisser/hadoop-datanode:1.0.0-hadoop2.7.6-java8
+    container_name: datanode2
+    depends_on:
+      - namenode
+    volumes:
+      - hadoop_datanode2:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env     
+
+  datanode3:
+    image: mfisser/hadoop-datanode:1.0.0-hadoop2.7.6-java8
+    container_name: datanode3
+    depends_on:
+      - namenode
+    volumes:
+      - hadoop_datanode3:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env
+
+  hive-server:
+    image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore 
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+
+  hive-metastore:
+    image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore 
+    env_file:
+      - ./hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode1:50075 datanode2:50075 datanode3:50075 hive-metastore-postgresql:5432"
+    ports:
+      - "9083:9083"
+
+  hive-metastore-postgresql:
+    image: mfisser/postgres:1.0.0-hive-for-postgresql-metastore
+
+  coordinator:
+    image: mfisser/presto-coordinator:1.0.0
+      environment:
+        node_id: coordinator
+    container_name: "coordinator"    
+    depends_on:
+      - hive-server
+    ports:
+      - "8080:8080"
+    
+  worker0:
+    image: mfisser/presto-worker:1.0.0
+      environment:
+        node_id: worker0
+    container_name: "worker0"
+    depends_on:
+      - coordinator
+    ports:
+      - "8081:8081"
+
+  worker1:
+   image: mfisser/presto-worker:1.0.0
+      environment:
+        node_id: worker1
+    container_name: "worker1"
+    depends_on:
+      - coordinator
+    ports:
+      - "8082:8081"  
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode1:
+  hadoop_datanode2:
+  hadoop_datanode3:
+  hadoop_historyserver:    

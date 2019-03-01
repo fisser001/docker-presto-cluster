@@ -1,0 +1,8 @@
+FROM mfisser/presto-base:1.0.0
+
+COPY etc /usr/local/presto/etc
+EXPOSE 8081
+
+WORKDIR /usr/local/presto
+
+CMD ["./bin/launcher", "run"]
