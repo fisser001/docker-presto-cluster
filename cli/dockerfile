@@ -9,4 +9,4 @@ COPY files/presto-cli-${PRESTO_VERSION}-executable.jar /usr/local/bin/presto
 RUN apk     --no-cache upgrade && \
     apk add --no-cache less
 
-ENTRYPOINT [ "/usr/local/bin/presto" ]
+ENTRYPOINT [ "/usr/local/bin/" ]
