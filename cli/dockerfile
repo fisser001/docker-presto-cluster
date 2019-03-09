@@ -10,4 +10,5 @@ RUN chmod 0755 -R /usr/local/bin/ && \
 RUN apk     --no-cache upgrade && \
     apk add --no-cache less bash
 
-ENTRYPOINT [ "/usr/local/bin" ]
+#ENTRYPOINT [ "/usr/local/bin" ]
+CMD [ 'bash', './usr/local/bin' ]
