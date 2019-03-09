@@ -10,4 +10,4 @@ RUN chmod 0755 /usr/local/bin/presto-cli-${PRESTO_VERSION} && \
 RUN apk     --no-cache upgrade && \
     apk add --no-cache less
 
-ENTRYPOINT [ "/usr/local/bin/presto" ]
+ENTRYPOINT [ "/usr/local/bin/" ]
