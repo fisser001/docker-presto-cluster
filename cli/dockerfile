@@ -11,4 +11,4 @@ RUN apk     --no-cache upgrade && \
     apk add --no-cache less bash
 
 #ENTRYPOINT [ "/usr/local/bin" ]
-CMD [ 'bash', 'cd', '/usr/local/bin' ]
+#CMD [ 'bash', 'cd', '/usr/local/bin' ]
