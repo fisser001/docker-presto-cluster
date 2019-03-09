@@ -3,7 +3,7 @@ FROM openjdk:alpine
 ENV PRESTO_VERSION=0.217
 
 COPY files/presto-cli-${PRESTO_VERSION}-executable.jar /usr/local/bin/presto-cli-${PRESTO_VERSION}
-RUN chmod 0755 /usr/local/bin/presto-cli-${PRESTO_VERSION} && \
+RUN chmod 0755 -R /usr/local/bin/ && \
     ln -s /usr/local/bin/presto-cli-${PRESTO_VERSION} /usr/local/bin/presto
 
 # Is an upgrade required? Install Dependencies: less
