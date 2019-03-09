@@ -8,6 +8,6 @@ RUN chmod 0755 -R /usr/local/bin/ && \
 
 # Is an upgrade required? Install Dependencies: less
 RUN apk     --no-cache upgrade && \
-    apk add --no-cache less
+    apk add --no-cache less bash
 
 #ENTRYPOINT [ "/bin/sh" ]
