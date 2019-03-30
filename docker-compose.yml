@@ -74,7 +74,9 @@ services:
       - ./hadoop-hive.env
 
   hive-server:
-    image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore 
+    image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore
+    volumes:
+      - hive:/data/results        
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -125,9 +127,41 @@ services:
       - coordinator
     ports:
       - "8082:8081"  
+  
+  worker2:
+    image: mfisser/presto-worker:1.0.0
+    environment:
+     - node_id=worker2
+    container_name: "worker2"
+    depends_on:
+      - coordinator
+    ports:
+      - "8083:8081"  
+  
+  worker3:
+    image: mfisser/presto-worker:1.0.0
+    environment:
+     - node_id=worker3
+    container_name: "worker3"
+    depends_on:
+      - coordinator
+    ports:
+      - "8084:8081"  
 
+  worker4:
+    image: mfisser/presto-worker:1.0.0
+    environment:
+     - node_id=worker4
+    container_name: "worker4"
+    depends_on:
+      - coordinator
+    ports:
+      - "8085:8081"  
+      
   presto-cli:
     image: mfisser/presto-cli:1.0.0
+    volumes:
+      - presto:/data/results       
     container_name: "presto-cli"
     depends_on:
       - coordinator
@@ -137,4 +171,6 @@ volumes:
   hadoop_datanode1:
   hadoop_datanode2:
   hadoop_datanode3:
-  hadoop_historyserver:    
+  hadoop_historyserver:
+  hive:
+  presto:    
