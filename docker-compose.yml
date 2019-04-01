@@ -134,7 +134,7 @@ services:
      - node_id=worker1
     container_name: "worker1"
     depends_on:
-      - coordinato2
+      - coordinator
     ports:
       - "8082:8081"  
   
