@@ -5,7 +5,9 @@ services:
     image: mfisser/hadoop-namenode:1.0.0-hadoop2.7.6-java8
     container_name: namenode
     volumes:
-      - hadoop_namenode:/hadoop/dfs/name
+      - type: volume
+        source: hadoop_namenode
+        target: /hadoop/dfs/name
     environment:
       - CLUSTER_NAME=test
     env_file:
@@ -14,6 +16,10 @@ services:
   resourcemanager:
     image: mfisser/hadoop-resourcemanager:1.0.0-hadoop2.7.6-java8
     container_name: resourcemanager
+    volumes:
+      - type: volume
+        source: hadoop_resourcemanager
+        target: /hadoop/resourcemanager
     depends_on:
       - namenode
       - datanode1
@@ -24,18 +30,24 @@ services:
   historyserver:
     image: mfisser/hadoop-historyserver:1.0.0-hadoop2.7.6-java8
     container_name: historyserver
+    volumes:
+      - type: volume
+        source: hadoop_historyserver
+        target: /hadoop/yarn/timeline
     depends_on:
       - namenode
       - datanode1
       - datanode2
-    volumes:
-      - hadoop_historyserver:/hadoop/yarn/timeline
     env_file:
       - ./hadoop-hive.env
   
   nodemanager1:
     image: mfisser/hadoop-nodemanager:1.0.0-hadoop2.7.6-java8
     container_name: nodemanager1
+    volumes:
+      - type: volume
+        source: hadoop_nodemanager1
+        target: /hadoop/nodemanager1    
     depends_on:
       - namenode
       - datanode1
@@ -46,12 +58,16 @@ services:
   nodemanager2:
     image: mfisser/hadoop-nodemanager:1.0.0-hadoop2.7.6-java8
     container_name: nodemanager2
+    volumes:
+      - type: volume
+        source: hadoop_nodemanager2
+        target: /hadoop/nodemanager2        
     depends_on:
       - namenode
       - datanode1
       - datanode2
     env_file:
-      - ./hadoop-hive.env
+      - ./hadoop-hive.env      
   
   datanode1:
     image: mfisser/hadoop-datanode:1.0.0-hadoop2.7.6-java8
@@ -59,7 +75,9 @@ services:
     depends_on:
       - namenode
     volumes:
-      - hadoop_datanode1:/hadoop/dfs/data
+      - type: volume
+        source: hadoop_datanode1
+        target: /hadoop/dfs/data
     env_file:
       - ./hadoop-hive.env  
 
@@ -69,7 +87,9 @@ services:
     depends_on:
       - namenode
     volumes:
-      - hadoop_datanode2:/hadoop/dfs/data
+      - type: volume
+        source: hadoop_datanode2
+        target: /hadoop/dfs/data
     env_file:
       - ./hadoop-hive.env     
 
@@ -79,14 +99,18 @@ services:
     depends_on:
       - namenode
     volumes:
-      - hadoop_datanode3:/hadoop/dfs/data
+      - type: volume
+        source: hadoop_datanode3
+        target: /hadoop/dfs/data
     env_file:
       - ./hadoop-hive.env
 
   hive-server:
     image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore
     volumes:
-      - hive:/data/results        
+     - type: volume
+       source: mydata
+       target: /data/mydata
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -94,9 +118,13 @@ services:
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
       - "10000:10000"
-
+      
   hive-metastore:
-    image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore 
+    image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore
+    volumes:
+     - type: volume
+       source: hive_metastore
+       target: /data/hive/metastore     
     env_file:
       - ./hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
@@ -107,6 +135,11 @@ services:
 
   hive-metastore-postgresql:
     image: mfisser/postgres:1.0.0-hive-for-postgresql-metastore
+    volumes:
+     - type: volume
+       source: pgdata
+       target: /var/lib/postgresql/data 
+
 
   coordinator:
     image: mfisser/presto-coordinator:1.0.0
@@ -178,9 +211,25 @@ services:
 
 volumes:
   hadoop_namenode:
+    external: true
   hadoop_datanode1:
+    external: true
   hadoop_datanode2:
+    external: true
   hadoop_datanode3:
-  hadoop_historyserver:
-  hive:
+    external: true
+  hadoop_historyserver:   
+    external: true
+  mydata:
+    external: true
+  hive_metastore:
+    external: true
+  pgdata:
+    external: true
+  hadoop_resourcemanager:
+    external: true
+  hadoop_nodemanager1:
+    external: true
+  hadoop_nodemanager2:
+    external: true
   presto:    
