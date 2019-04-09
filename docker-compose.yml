@@ -204,7 +204,7 @@ services:
   presto-cli:
     image: mfisser/presto-cli:1.0.0
     volumes:
-      - presto:/data/results       
+      - presto:/data/mydata       
     container_name: "presto-cli"
     depends_on:
       - coordinator
