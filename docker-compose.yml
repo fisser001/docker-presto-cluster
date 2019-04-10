@@ -3,6 +3,7 @@ version: "3.2"
 services:
   namenode:
     image: mfisser/hadoop-namenode:1.0.0-hadoop2.7.6-java8
+    restart: always
     container_name: namenode
     volumes:
       - type: volume
@@ -15,6 +16,7 @@ services:
 
   resourcemanager:
     image: mfisser/hadoop-resourcemanager:1.0.0-hadoop2.7.6-java8
+    restart: always
     container_name: resourcemanager
     volumes:
       - type: volume
@@ -43,6 +45,7 @@ services:
   
   nodemanager1:
     image: mfisser/hadoop-nodemanager:1.0.0-hadoop2.7.6-java8
+    restart: always
     container_name: nodemanager1
     volumes:
       - type: volume
@@ -57,6 +60,7 @@ services:
 
   nodemanager2:
     image: mfisser/hadoop-nodemanager:1.0.0-hadoop2.7.6-java8
+    restart: always
     container_name: nodemanager2
     volumes:
       - type: volume
@@ -107,6 +111,7 @@ services:
 
   hive-server:
     image: mfisser/hive:1.0.0-hive2.3.2-for-postgresql-metastore
+    restart: always
     volumes:
      - type: volume
        source: mydata
@@ -143,6 +148,7 @@ services:
 
   coordinator:
     image: mfisser/presto-coordinator:1.0.0
+    restart: always
     environment:
       - node_id=coordinator
     container_name: "coordinator"    
@@ -153,6 +159,7 @@ services:
     
   worker0:
     image: mfisser/presto-worker:1.0.0
+    restart: always
     environment:
       - node_id=worker0
     container_name: "worker0"
@@ -163,6 +170,7 @@ services:
 
   worker1:
     image: mfisser/presto-worker:1.0.0
+    restart: always
     environment:
      - node_id=worker1
     container_name: "worker1"
@@ -173,6 +181,7 @@ services:
   
   worker2:
     image: mfisser/presto-worker:1.0.0
+    restart: always
     environment:
      - node_id=worker2
     container_name: "worker2"
@@ -183,6 +192,7 @@ services:
   
   worker3:
     image: mfisser/presto-worker:1.0.0
+    restart: always
     environment:
      - node_id=worker3
     container_name: "worker3"
@@ -193,6 +203,7 @@ services:
 
   worker4:
     image: mfisser/presto-worker:1.0.0
+    restart: always
     environment:
      - node_id=worker4
     container_name: "worker4"
