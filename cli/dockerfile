@@ -9,6 +9,6 @@ RUN chmod 0755 -R /usr/local/bin/ && \
 # Is an upgrade required? Install Dependencies: less
 RUN apk     --no-cache upgrade && \
     apk add --no-cache less bash git unzip nano
-VOLUME /data/results
+VOLUME /data/mydata
 #ENTRYPOINT [ "/usr/local/bin" ]
 #CMD [ 'bash', 'cd', '/usr/local/bin' ]
