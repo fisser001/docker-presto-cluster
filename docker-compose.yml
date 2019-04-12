@@ -243,4 +243,5 @@ volumes:
     external: true
   hadoop_nodemanager2:
     external: true
-  presto:    
+  presto:
+    external: true    
