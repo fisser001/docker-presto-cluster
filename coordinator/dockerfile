@@ -2,6 +2,12 @@ FROM mfisser/presto-base:1.0.0
 
 ADD etc /usr/local/presto/etc
 
+ENV PRESTO_VERSION=0.217
+
+COPY files/presto-cli-${PRESTO_VERSION}-executable.jar /usr/local/bin/presto-cli-${PRESTO_VERSION}
+RUN chmod 0755 -R /usr/local/bin/ && \
+    ln -s /usr/local/bin/presto-cli-${PRESTO_VERSION} /usr/local/bin/presto
+
 EXPOSE 8080
 WORKDIR /usr/local/presto
 CMD ["./bin/launcher", "run"]
