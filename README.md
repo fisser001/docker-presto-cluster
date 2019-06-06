@@ -3,7 +3,7 @@ This repository contains all the container related code for creating the contain
 
 All container have been build by Docker and executed by Docker-compose.
 
-All given information/code belong only to Presto which was one tool of the benchmark. Each component of Impala has its own Docker image.
+All given information/code belong only to Presto which was one tool of the benchmark. Each component of Presto has its own Docker image.
 
 ## Subfolder and relevant files
 
@@ -27,6 +27,8 @@ This file contains the main definiton of the Presto cluster with additional comp
 The Hadoop components which are used within in the Docker-compose file are described in the following repository: https://github.com/fisser001/docker-hadoop
 
 The Hive components which are used within in the Docker-compose file are described in the following repository: https://github.com/fisser001/docker-hive
+
+The Hive Metastore component which is used within in the Docker-compose file is described in the following repository: https://github.com/fisser001/docker-hive-metastore-postgresql
 
 In order to start the cluster, Docker and Docker-compose have to be installed on the machine where the cluster should be started. If that is fullfilled navigate to the folder where the Docker-compose file is located. The following command has to be executed for starting all relevant components:
 
